@@ -1,0 +1,10 @@
+.container {
+  max-width: 1200px;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.nav {
+  color: white;
+  font-size: 20px;
+}
