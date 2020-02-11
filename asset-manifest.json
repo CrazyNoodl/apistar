@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/starapi/static/css/main.9fee610f.chunk.css",
+    "main.js": "/starapi/static/js/main.172a28a1.chunk.js",
+    "main.js.map": "/starapi/static/js/main.172a28a1.chunk.js.map",
+    "runtime-main.js": "/starapi/static/js/runtime-main.0fde9466.js",
+    "runtime-main.js.map": "/starapi/static/js/runtime-main.0fde9466.js.map",
+    "static/js/2.82be369a.chunk.js": "/starapi/static/js/2.82be369a.chunk.js",
+    "static/js/2.82be369a.chunk.js.map": "/starapi/static/js/2.82be369a.chunk.js.map",
+    "index.html": "/starapi/index.html",
+    "precache-manifest.0f81ce208db7c2cde3155171c5e37859.js": "/starapi/precache-manifest.0f81ce208db7c2cde3155171c5e37859.js",
+    "service-worker.js": "/starapi/service-worker.js",
+    "static/css/main.9fee610f.chunk.css.map": "/starapi/static/css/main.9fee610f.chunk.css.map",
+    "static/js/2.82be369a.chunk.js.LICENSE.txt": "/starapi/static/js/2.82be369a.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/starapi/static/media/falcon.a50e2585.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0fde9466.js",
+    "static/js/2.82be369a.chunk.js",
+    "static/css/main.9fee610f.chunk.css",
+    "static/js/main.172a28a1.chunk.js"
+  ]
+}
