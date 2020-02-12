@@ -2,7 +2,7 @@
   "name": "airport",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://crazynoodl.github.io/starapi/",
+  "homepage": "https://crazynoodl.github.io/apistar",
   "dependencies": {
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.9.1",

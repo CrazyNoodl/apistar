@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withRouter } from 'react-router-dom'
 import List from '@material-ui/core/List';
@@ -7,54 +7,49 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Planets.scss'
 
-
 function Planets(props) {
 
   const [loading, setLoading] = useState(true)
   const [planets, setPlanets] = useState([])
-  const [urls, setUrls] = useState([])
 
   const getUrl = (url) => {
-    url = url.split('/');
-    return url[url.length - 2];
+    let modifiedUrl = url.split('/');
+
+    return modifiedUrl[modifiedUrl.length - 2];
   }
 
   useEffect(() => {
     async function fetchData() {
-      setUrls(props.urls)
-      let requests = urls.map(url => fetch(url));
+      let requests = props.urls.map(url => fetch(url));
 
-      Promise.all(requests)
-        .then(responses => {
-          return responses;
-        })
-        .then(responses => Promise.all(responses.map(r => r.json())))
+      await Promise.all(requests)
+        .then(async responses => await Promise.all(responses.map(r => r.json())))
         .then(planets => setPlanets(planets))
+
+      setLoading(false);
     };
 
     fetchData();
-    setLoading(false);
-  }, [urls, props]);
+  }, [props]);
 
   return (
     <>
-      {loading || !planets ? (
+      {loading ? (
         <CircularProgress color="secondary" size={50} />
       ) : (
           <>
             <List className="list" component="ul" aria-label="secondary mailbox folders">
               <h3>PLANETS</h3>
               {planets.map((planet, index) =>
-                <>
-                  <ListItem key={index} button>
+                <Fragment key={planet.name}>
+                  <ListItem button>
                     <ListItemText
                       onClick={() => props.history.push('/planets/' + getUrl(props.urls[index]))}
-                      key={index}
                       primary={planet.name}
                     />
                   </ListItem>
                   <Divider light={true} />
-                </>
+                </Fragment>
               )}
             </List>
           </>

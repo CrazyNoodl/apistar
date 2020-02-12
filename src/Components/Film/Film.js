@@ -25,9 +25,9 @@ function Film(props) {
         const reqPoster = await fetch(urlPoster);
         const dataPoster = await reqPoster.json();
 
-        setFilm(data)
-        setPoster(dataPoster.results[0].poster_path) //little bit hardcode
-        setLodaing(false)
+        setFilm(data);
+        setPoster(dataPoster.results[0].poster_path);
+        setLodaing(false);
       } catch (e) {
         console.error(e);
       }

@@ -15,10 +15,8 @@ function Planet(props) {
       try {
         const res = await fetch(`https://swapi.co/api${props.location.pathname}`);
         const data = await res.json();
-
         setPlanet(data)
         setLodaing(false)
-        console.log(data)
       } catch (e) {
         console.error(e);
       }

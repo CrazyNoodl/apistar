@@ -11,33 +11,28 @@ function Films(props) {
 
   const [loading, setLoading] = useState(true)
   const [films, setFilms] = useState([])
-  const [urls, setUrls] = useState([])
 
   const getUrl = (url) => {
-    url = url.split('/');
-    return url[url.length - 2];
+    let modifiedUrl = url.split('/');
+
+    return modifiedUrl[modifiedUrl.length - 2];
   }
+
 
   useEffect(() => {
     async function fetchData() {
-      setUrls(props.urls)
-      let requests = urls.map(url => fetch(url));
 
+      let requests = props.urls.map(url => fetch(url));
 
-      Promise.all(requests)
-        .then(responses => {
-          return responses;
-        })
-        .then(responses => Promise.all(responses.map(r => r.json())))
+      await Promise.all(requests)
+        .then(async responses => await Promise.all(responses.map(r => r.json())))
         .then(data => setFilms(data));
-
-
 
       setLoading(false)
     };
 
     fetchData();
-  }, [urls, props]);
+  }, [props]);
 
   return (
     <>

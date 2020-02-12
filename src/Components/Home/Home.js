@@ -28,44 +28,48 @@ class Home extends Component {
     })
   }
 
-  sortByName = () => {
-    this.setState(prevState => {
-      return {
-        films: prevState.films.sort((a, b) => {
-          let nameA = a.title,
-            nameB = b.title
-          if (nameA < nameB)
-            return -1
-          if (nameA > nameB)
-            return 1
-          return 0
-        }),
-      }
-    })
-  }
-
-  sortByEpisode = () => {
-    this.setState(prewState => {
-      return {
-        films: prewState.films.sort((a, b) => a.episode_id - b.episode_id)
-      }
-    })
-  }
-
-  sortByDate = () => {
-    this.setState(prevState => {
-      return {
-        films: prevState.films.sort((a, b) => {
-          let nameA = a.release_date,
-            nameB = b.release_date
-          if (nameA < nameB)
-            return -1
-          if (nameA > nameB)
-            return 1
-          return 0
-        }),
-      }
-    })
+  sorting = (method) => {
+    switch (method) {
+      case 'date':
+        this.setState(prevState => {
+          return {
+            films: prevState.films.sort((a, b) => {
+              let nameA = a.release_date,
+                nameB = b.release_date
+              if (nameA < nameB)
+                return -1
+              if (nameA > nameB)
+                return 1
+              return 0
+            }),
+          }
+        });
+        break;
+      case 'name':
+        this.setState(prevState => {
+          return {
+            films: prevState.films.sort((a, b) => {
+              let nameA = a.title,
+                nameB = b.title
+              if (nameA < nameB)
+                return -1
+              if (nameA > nameB)
+                return 1
+              return 0
+            }),
+          }
+        });
+        break;
+      case 'episod':
+        this.setState(prewState => {
+          return {
+            films: prewState.films.sort((a, b) => a.episode_id - b.episode_id)
+          }
+        });
+        break;
+      default:
+        return this.state;
+    }
   }
 
   searching = (e) => {
@@ -86,9 +90,9 @@ class Home extends Component {
             <div className='container'>
               <div className='control'>
                 <ButtonGroup size="large" color="inherit" variant="text" aria-label="large outlined primary button group">
-                  <Button onClick={this.sortByName}>Sort by Name</Button>
-                  <Button onClick={this.sortByEpisode}>Sort by Episode</Button>
-                  <Button onClick={this.sortByDate}>Sort by Date</Button>
+                  <Button onClick={() => this.sorting('name')}>Sort by Name</Button>
+                  <Button onClick={() => this.sorting('episod')}>Sort by Episod</Button>
+                  <Button onClick={() => this.sorting('date')}>Sort by Date</Button>
                 </ButtonGroup>
                 <input onChange={this.searching} type="text" placeholder="live search"></input>
               </div>

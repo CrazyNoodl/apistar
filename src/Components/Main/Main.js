@@ -60,6 +60,9 @@ function Main(props) {
         <Typography className={classes.title} variant="h4" component="span">
           {props.about.title}
         </Typography>
+        <Typography className={classes.suptitle} color="textSecondary" gutterBottom>
+          Release Data {props.about.release_date}
+        </Typography>
       </CardContent>
       <CardActions>
         <button className="href" onClick={() => props.history.push('/films/' + getUrl(props.about.url))} size="small">Read More</button>
