@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import { sortByName, sortByEpisod, sortByDate, loadFilms, sortByLive } from '../redux/actions';
+import { getFilms, getIsLoading, getFilmsLoaded, getTermForSearch, getError } from '../redux/selectors';
 import Main from '../Main/Main';
-import './Home.scss';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { TEXT } from '../../constants/text';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import './Home.scss';
 
 function searchingFor(term) {
   return function (x) {
@@ -12,106 +16,79 @@ function searchingFor(term) {
 }
 
 class Home extends Component {
-  state = {
-    films: null,
-    loading: true,
-    search: '',
-  }
 
-  async componentDidMount() {
-    const url = 'https://swapi.co/api/films';
-    const req = await fetch(url);
-    const data = await req.json();
-    this.setState({
-      films: data.results,
-      loading: false,
-    })
-  }
+  componentDidMount() {
+    const { loadFilms, filmsLoaded } = this.props
 
-  sorting = (method) => {
-    switch (method) {
-      case 'date':
-        this.setState(prevState => {
-          return {
-            films: prevState.films.sort((a, b) => {
-              let nameA = a.release_date,
-                nameB = b.release_date
-              if (nameA < nameB)
-                return -1
-              if (nameA > nameB)
-                return 1
-              return 0
-            }),
-          }
-        });
-        break;
-      case 'name':
-        this.setState(prevState => {
-          return {
-            films: prevState.films.sort((a, b) => {
-              let nameA = a.title,
-                nameB = b.title
-              if (nameA < nameB)
-                return -1
-              if (nameA > nameB)
-                return 1
-              return 0
-            }),
-          }
-        });
-        break;
-      case 'episod':
-        this.setState(prewState => {
-          return {
-            films: prewState.films.sort((a, b) => a.episode_id - b.episode_id)
-          }
-        });
-        break;
-      default:
-        return this.state;
+    if (!filmsLoaded) {
+      loadFilms()
     }
   }
 
-  searching = (e) => {
-    this.setState(
-      {
-        search: e.target.value,
-      });
-  }
-
   render() {
+    const { films, isLoading, onName, onEpisod, onDate, searching, term, error } = this.props
+
     return (
       <>
-        {this.state.loading || !this.state.films ? (
-          <div className="spinner">
-            <CircularProgress color="secondary" size={200} />
-          </div>
+        {error ? (
+          <>
+            {error}
+            <button onClick={this.props.loadFilms}>{TEXT.ERROR_LOADING}</button>
+          </>
         ) : (
-            <div className='container'>
-              <div className='control'>
-                <ButtonGroup size="large" color="inherit" variant="text" aria-label="large outlined primary button group">
-                  <Button onClick={() => this.sorting('name')}>Sort by Name</Button>
-                  <Button onClick={() => this.sorting('episod')}>Sort by Episod</Button>
-                  <Button onClick={() => this.sorting('date')}>Sort by Date</Button>
-                </ButtonGroup>
-                <input onChange={this.searching} type="text" placeholder="live search"></input>
-              </div>
-              <div className='table'>
-                {this.state.films.filter(searchingFor(this.state.search)).map((film, index) => (
-                  <Main
-                    key={index}
-                    about={film}
-                  />
-                )
-                )
-                }
-              </div>
-            </div >
-          )
-        }
+            <>
+              {isLoading ? ( // ??????????
+                <div className="spinner">
+                  <CircularProgress color="secondary" size={200} />
+                </div>
+              ) : (
+                  <div className='container'>
+                    <div className='control'>
+                      <ButtonGroup size="large" color="inherit" variant="text" aria-label="large outlined primary button group">
+                        <Button onClick={onName}>Sort by Name</Button>
+                        <Button onClick={onEpisod}>Sort by Episod</Button>
+                        <Button onClick={onDate}>Sort by Date</Button>
+                      </ButtonGroup>
+                      <input onChange={searching} type="text" placeholder="live search"></input>
+                    </div>
+                    <div className='table'>
+                      {films.filter(searchingFor(term)).map((film, index) => (
+                        <Main
+                          key={film.episode_id}
+                          about={film}
+                          index={index}
+                        />
+                      )
+                      )
+                      }
+                    </div>
+                  </div >
+                )}
+            </>
+          )}
       </>
     );
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    films: getFilms(state),
+    isLoading: getIsLoading(state),
+    filmsLoaded: getFilmsLoaded(state),
+    term: getTermForSearch(state),
+    error: getError(state),
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadFilms: () => dispatch(loadFilms()),
+    onName: () => dispatch(sortByName()),
+    onEpisod: () => dispatch(sortByEpisod()),
+    onDate: () => dispatch(sortByDate()),
+    searching: (e) => dispatch(sortByLive(e.target.value))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

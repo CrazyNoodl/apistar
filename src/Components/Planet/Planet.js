@@ -2,47 +2,61 @@ import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Films from '../Films/Films';
 import Button from '@material-ui/core/Button';
-import './Planet.scss'
+import { API } from '../../constants/api';
+import './Planet.scss';
+import { saveCurrentPlanet } from '../redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
-function Planet(props) {
+function Planet({ location, history }) {
 
-  const [loading, setLodaing] = useState(true)
-  const [planet, setPlanet] = useState(null)
+  const { currentPlanet } = useSelector(state => ({ //вместо mapStateToProps
+    currentPlanet: state.currentPlanet,
+  }));
+
+  const dispatch = useDispatch(); //вместо mapDispatchToProps
+
+  const [loading, setLodaing] = useState(currentPlanet === null)
   const [films, setFilms] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`https://swapi.co/api${props.location.pathname}`);
-        const data = await res.json();
-        setPlanet(data)
+        const response = await fetch(`${API}${location.pathname}`);
+
+        const planet = await response.json();
+        dispatch(saveCurrentPlanet(planet))
         setLodaing(false)
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     };
-    fetchData();
-  }, [props]);
+
+    if (!currentPlanet) {
+      fetchData();
+    }
+
+  }, [location]);
 
   return (
     <>
-      {loading || !planet ? (
+      {loading ? (
         <CircularProgress color="secondary" />
       ) : (
           <div className="planet">
-            <h1>{planet.name}</h1>
-            <h3>Rotation Period {planet.rotation_period}</h3>
-            <h3>Orbital Period: {planet.orbital_period}</h3>
-            <h3>Diameter: {planet.diameter}</h3>
-            <h3>Climate: {planet.climate}</h3>
-            <h3>Gravity: {planet.gravity}</h3>
-            <p>Terrain: {planet.terrain}</p>
+            <h1>{currentPlanet.name}</h1>
+            <h3>Rotation Period {currentPlanet.rotation_period}</h3>
+            <h3>Orbital Period: {currentPlanet.orbital_period}</h3>
+            <h3>Diameter: {currentPlanet.diameter}</h3>
+            <h3>Climate: {currentPlanet.climate}</h3>
+            <h3>Gravity: {currentPlanet.gravity}</h3>
+            <p>Terrain: {currentPlanet.terrain}</p>
+            <p>Population: {currentPlanet.population}</p>
 
             <Button
               variant="outlined"
               color="inherit"
               size="large"
-              disabled={films ? true : false}
+              disabled={films}
               onClick={() => setFilms(true)}
             >
               FILMS
@@ -51,11 +65,11 @@ function Planet(props) {
               variant="outlined"
               color="inherit"
               size="large"
-              onClick={() => props.history.goBack()}
+              onClick={() => history.goBack()}
             >
               GO BACK
             </Button>
-            {films ? <Films urls={planet.films} /> : null}
+            {films ? <Films urls={currentPlanet.films} /> : null}
           </div>
         )
       }

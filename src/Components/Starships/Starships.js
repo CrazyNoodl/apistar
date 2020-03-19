@@ -1,59 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
+import { getUrl } from '../../utils/index';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { withRouter } from 'react-router-dom';
+import { loadingStarships, saveCurrentShip } from '../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
-function Starships(props) {
+function Starships({ history }) {
 
-  const [loading, setLoading] = useState(true)
-  const [starships, setStarships] = useState([])
+  const { urls, starships, needStarships } = useSelector(state => ({
+    urls: state.needStarships,
+    starships: state.showStarships,
+    needStarships: state.needStarships
+  }))
 
-  const getUrl = (url) => {
-    let modifiedUrl = url.split('/');
+  const dispatch = useDispatch();
 
-    return modifiedUrl[modifiedUrl.length - 2];
-  }
+  const [loading, setLoading] = useState(needStarships !== null)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        let requests = props.urls.map(url => fetch(url));
+        let requests = urls.map(url => fetch(url));
 
         await Promise.all(requests)
-          .then(async responses => await Promise.all(responses.map(r => r.json())))
-          .then(data => setStarships(data));
+          .then(async responses => await Promise.all(responses.map(starship => starship.json())))
+          .then(starships => dispatch(loadingStarships(starships)));
 
         setLoading(false)
 
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     };
-    fetchData();
-  }, [props]);
+    if (needStarships) {
+      fetchData();
+    }
+  }, []);
 
   return (
     <>
       {loading ? (
         <CircularProgress color="secondary" />
       ) : (
-          <List className="list list--left" component="ul" aria-label="secondary mailbox folders">
-            <h3>STARSHIPS</h3>
-            {starships.map((starship, index) =>
-              <>
-                <ListItem button>
-                  <ListItemText
-                    onClick={() => props.history.push('/starships/' + getUrl(props.urls[index]))}
-                    key={index}
-                    primary={starship.name} />
-                </ListItem>
-                <Divider light={true} />
-              </>
-            )}
-          </List>
+          <>
+            <List className="list list--left" component="ul" aria-label="secondary mailbox folders">
+              <h3>STARSHIPS</h3>
+              {starships.map((starship, index) =>
+                <Fragment key={starship.name}>
+                  <ListItem button>
+                    <ListItemText
+                      onClick={() => {
+                        history.push('/starships/' + getUrl(starships[index].url))
+                        dispatch(saveCurrentShip(starship))
+                      }}
+                      primary={starship.name} />
+                  </ListItem>
+                  <Divider light={true} />
+                </Fragment>
+              )}
+            </List>
+          </>
         )
       }
     </>

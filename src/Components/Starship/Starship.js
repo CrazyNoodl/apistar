@@ -1,47 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSelector, useDispatch } from 'react-redux';
+import { saveCurrentShip } from '../redux/actions';
+import { API } from '../../constants/api';
 import Films from '../Films/Films';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Starship(props) {
+  const { currentShip } = useSelector(state => ({
+    currentShip: state.currentShip,
+  }));
 
-  const [loading, setLodaing] = useState(true)
-  const [starship, setStarship] = useState(null)
+  const dispatch = useDispatch();
+
+  const [loading, setLodaing] = useState(currentShip === null)
   const [films, setFilms] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`https://swapi.co/api${props.location.pathname}`);
-        const data = await res.json();
-
-        setStarship(data)
+        const response = await fetch(`${API}${props.location.pathname}`);
+        const ship = await response.json();
+        dispatch(saveCurrentShip(ship))
         setLodaing(false)
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     };
-    fetchData();
+
+    if (!currentShip) {
+      fetchData();
+    }
+
   }, [props]);
 
   return (
     <>
-      {loading || !starship ? (
+      {loading ? (
         <CircularProgress color="secondary" size={200} />
       ) : (
           <div className="planet">
-            <h1>{starship.name}</h1>
-            <h3>Model {starship.model}</h3>
-            <h3>Manufacturer: {starship.manufacturer}</h3>
-            <h3>Cost In Credits: {starship.cost_in_credits}</h3>
-            <h3>Length: {starship.length}</h3>
-            <p>Crew: {starship.crew}</p>
+            <h1>{currentShip.name}</h1>
+            <h3>Model {currentShip.model}</h3>
+            <h3>Manufacturer: {currentShip.manufacturer}</h3>
+            <h3>Cost In Credits: {currentShip.cost_in_credits}</h3>
+            <h3>Length: {currentShip.length}</h3>
+            <p>Crew: {currentShip.crew}</p>
 
             <Button
               variant="outlined"
               color="inherit"
               size="large"
-              disabled={films ? true : false}
+              disabled={films}
               onClick={() => setFilms(true)}
             >
               FILMS
@@ -54,7 +64,7 @@ function Starship(props) {
             >
               GO BACK
             </Button>
-            {films ? <Films urls={starship.films} /> : null}
+            {films ? <Films urls={currentShip.films} /> : null}
           </div>
         )
       }

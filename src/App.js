@@ -3,30 +3,35 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  Link,
+  NavLink,
 } from "react-router-dom";
 import Home from './Components/Home/Home';
 import Film from './Components/Film/Film';
 import Planet from './Components/Planet/Planet';
 import Starship from './Components/Starship/Starship';
+import NotFound from './Components/NotFound/NotFound';
 import './App.css';
 
-export default function App() {
+function App() {
   return (
-    <Router>
-      <div className='container'>
-        <Link className="nav" to="/">Home</Link>
+    <>
+      <Router>
+        <div className='container'>
+          <NavLink className="nav" to="/">Home</NavLink>
 
-        <hr />
+          <hr />
 
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/films/:id" component={Film} />
-          <Route path="/planets/:id" component={Planet} />
-          <Route path="/starships/:id" component={Starship} />
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/films/:id" component={Film} />
+            <Route path="/planets/:id" component={Planet} />
+            <Route path="/starships/:id" component={Starship} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </div>
+      </Router>
+    </>
   );
 }
 
+export default App;

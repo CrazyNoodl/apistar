@@ -1,36 +1,36 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loadingPlanets, saveCurrentPlanet } from '../redux/actions';
 import List from '@material-ui/core/List';
+import { getUrl } from '../../utils/index';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Planets.scss'
 
-function Planets(props) {
+function Planets({ urls, needPlanets, savePlanets, planets, history, saveCurrentPlanet }) {
 
-  const [loading, setLoading] = useState(true)
-  const [planets, setPlanets] = useState([])
-
-  const getUrl = (url) => {
-    let modifiedUrl = url.split('/');
-
-    return modifiedUrl[modifiedUrl.length - 2];
-  }
+  const [loading, setLoading] = useState(needPlanets !== null)
 
   useEffect(() => {
     async function fetchData() {
-      let requests = props.urls.map(url => fetch(url));
+
+      let requests = urls.map(url => fetch(url));
 
       await Promise.all(requests)
-        .then(async responses => await Promise.all(responses.map(r => r.json())))
-        .then(planets => setPlanets(planets))
+        .then(async responses => await Promise.all(responses.map(planet => planet.json())))
+        .then(planets => savePlanets(planets))
 
       setLoading(false);
     };
 
-    fetchData();
-  }, [props]);
+    if (needPlanets) {
+      fetchData();
+    }
+
+  }, []);
 
   return (
     <>
@@ -44,7 +44,10 @@ function Planets(props) {
                 <Fragment key={planet.name}>
                   <ListItem button>
                     <ListItemText
-                      onClick={() => props.history.push('/planets/' + getUrl(props.urls[index]))}
+                      onClick={() => {
+                        history.push('/planets/' + getUrl(planets[index].url))
+                        saveCurrentPlanet(planet)
+                      }}
                       primary={planet.name}
                     />
                   </ListItem>
@@ -59,4 +62,19 @@ function Planets(props) {
   );
 }
 
-export default withRouter(Planets);
+function mapStateToProps(state) {
+  return {
+    urls: state.needPlanets,
+    planets: state.showPlanets,
+    needPlanets: state.needPlanets
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    savePlanets: (data) => dispatch(loadingPlanets(data)),
+    saveCurrentPlanet: (data) => dispatch(saveCurrentPlanet(data)),
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Planets));

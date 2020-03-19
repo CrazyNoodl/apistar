@@ -1,5 +1,8 @@
-import { withRouter } from 'react-router-dom'
 import React from 'react';
+import { withRouter } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { saveCurrentFilm } from '../redux/actions';
+import { getUrl } from '../../utils/index';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -46,10 +49,11 @@ const useStyles = makeStyles({
 function Main(props) {
   const classes = useStyles();
 
-  const getUrl = (url) => {
-    url = url.split('/');
-    return url[url.length - 2];
-  }
+  const { film } = useSelector(state => ({ //вместо mapStateToProps
+    film: state.films[props.index],
+  }));
+
+  const dispatch = useDispatch(); //вместо mapDispatchToProps
 
   return (
     <Card className={classes.root}>
@@ -65,7 +69,10 @@ function Main(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <button className="href" onClick={() => props.history.push('/films/' + getUrl(props.about.url))} size="small">Read More</button>
+        <button className="href" onClick={() => {
+          props.history.push('/films/' + getUrl(props.about.url))
+          dispatch(saveCurrentFilm(film))
+        }} size="small">Read More</button>
       </CardActions>
     </Card>
   );
