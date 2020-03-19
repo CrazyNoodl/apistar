@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/apistar/static/css/main.f7d661a2.chunk.css",
-    "main.js": "/apistar/static/js/main.fb9cc2f7.chunk.js",
-    "main.js.map": "/apistar/static/js/main.fb9cc2f7.chunk.js.map",
+    "main.js": "/apistar/static/js/main.d21536f8.chunk.js",
+    "main.js.map": "/apistar/static/js/main.d21536f8.chunk.js.map",
     "runtime-main.js": "/apistar/static/js/runtime-main.31893431.js",
     "runtime-main.js.map": "/apistar/static/js/runtime-main.31893431.js.map",
-    "static/js/2.40d01878.chunk.js": "/apistar/static/js/2.40d01878.chunk.js",
-    "static/js/2.40d01878.chunk.js.map": "/apistar/static/js/2.40d01878.chunk.js.map",
+    "static/js/2.2bcd117b.chunk.js": "/apistar/static/js/2.2bcd117b.chunk.js",
+    "static/js/2.2bcd117b.chunk.js.map": "/apistar/static/js/2.2bcd117b.chunk.js.map",
     "index.html": "/apistar/index.html",
-    "precache-manifest.c8166ad3964cb0cc312d9e2d375364b6.js": "/apistar/precache-manifest.c8166ad3964cb0cc312d9e2d375364b6.js",
+    "precache-manifest.7d91f28c279477099c375e42edacd09e.js": "/apistar/precache-manifest.7d91f28c279477099c375e42edacd09e.js",
     "service-worker.js": "/apistar/service-worker.js",
     "static/css/main.f7d661a2.chunk.css.map": "/apistar/static/css/main.f7d661a2.chunk.css.map",
-    "static/js/2.40d01878.chunk.js.LICENSE.txt": "/apistar/static/js/2.40d01878.chunk.js.LICENSE.txt",
+    "static/js/2.2bcd117b.chunk.js.LICENSE.txt": "/apistar/static/js/2.2bcd117b.chunk.js.LICENSE.txt",
     "static/media/index.css": "/apistar/static/media/falcon.a50e2585.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.31893431.js",
-    "static/js/2.40d01878.chunk.js",
+    "static/js/2.2bcd117b.chunk.js",
     "static/css/main.f7d661a2.chunk.css",
-    "static/js/main.fb9cc2f7.chunk.js"
+    "static/js/main.d21536f8.chunk.js"
   ]
 }
