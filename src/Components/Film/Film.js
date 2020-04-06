@@ -74,7 +74,8 @@ function Film(props) {
                   size="large"
                   className={classes.button}
                   startIcon={<SaveIcon />}
-                  onClick={() => setPlanets(!planets)}
+                  onClick={() => setPlanets(true)}
+                  disabled={planets}
                 >
                   Planets
                 </Button>
