@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/apistar/static/css/main.f7d661a2.chunk.css",
-    "main.js": "/apistar/static/js/main.5323ed82.chunk.js",
-    "main.js.map": "/apistar/static/js/main.5323ed82.chunk.js.map",
+    "main.js": "/apistar/static/js/main.d9d00443.chunk.js",
+    "main.js.map": "/apistar/static/js/main.d9d00443.chunk.js.map",
     "runtime-main.js": "/apistar/static/js/runtime-main.31893431.js",
     "runtime-main.js.map": "/apistar/static/js/runtime-main.31893431.js.map",
     "static/js/2.2bcd117b.chunk.js": "/apistar/static/js/2.2bcd117b.chunk.js",
     "static/js/2.2bcd117b.chunk.js.map": "/apistar/static/js/2.2bcd117b.chunk.js.map",
     "index.html": "/apistar/index.html",
-    "precache-manifest.3d2a8ab6d18785d49bb614a7723cf272.js": "/apistar/precache-manifest.3d2a8ab6d18785d49bb614a7723cf272.js",
+    "precache-manifest.3cbd0e64dc5292acd5157437922631fa.js": "/apistar/precache-manifest.3cbd0e64dc5292acd5157437922631fa.js",
     "service-worker.js": "/apistar/service-worker.js",
     "static/css/main.f7d661a2.chunk.css.map": "/apistar/static/css/main.f7d661a2.chunk.css.map",
     "static/js/2.2bcd117b.chunk.js.LICENSE.txt": "/apistar/static/js/2.2bcd117b.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.31893431.js",
     "static/js/2.2bcd117b.chunk.js",
     "static/css/main.f7d661a2.chunk.css",
-    "static/js/main.5323ed82.chunk.js"
+    "static/js/main.d9d00443.chunk.js"
   ]
 }
