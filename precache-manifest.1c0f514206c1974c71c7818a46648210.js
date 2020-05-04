@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bdfe31d348ff608effe36c8814f99f2f",
+    "revision": "1757ee77c6fddca05e665c923ba14c49",
     "url": "/apistar/index.html"
   },
   {
-    "revision": "88f20a90db10b2b1b26a",
+    "revision": "c60ae1021a0f0c99ca5e",
     "url": "/apistar/static/css/main.f7d661a2.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/apistar/static/js/2.2bcd117b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "88f20a90db10b2b1b26a",
-    "url": "/apistar/static/js/main.8a23e8ac.chunk.js"
+    "revision": "c60ae1021a0f0c99ca5e",
+    "url": "/apistar/static/js/main.4d903ab3.chunk.js"
   },
   {
     "revision": "f398039accddc3a5ff8f",
