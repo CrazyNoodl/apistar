@@ -22,7 +22,7 @@ function Film(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API}${props.location.pathname}`);
+        const response = await fetch(`${API}${props.location.pathname}/`);
         const data = await response.json();
         // const urlPoster = `https://api.themoviedb.org/3/search/movie?api_key=0ee32771ac12a2b0b6c306f4f382cdf3&query=${data.title}`; // *
         // const reqPoster = await fetch(urlPoster); //*

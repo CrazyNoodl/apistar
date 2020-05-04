@@ -115,7 +115,7 @@ export const loadFilms = () => dispatch => {
 
   dispatch(startLoading());
 
-  fetch(ENDPOINTS.FILMS)
+  fetch('https://swapi.dev/api/films/')
     .then(res => res.json())
     .then(data => dispatch(loadingFilms(data)))
     .catch((error) => dispatch(setError(error)))

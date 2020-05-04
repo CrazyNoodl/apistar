@@ -19,7 +19,7 @@ function Starship(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API}${props.location.pathname}`);
+        const response = await fetch(`${API}${props.location.pathname}/`);
         const ship = await response.json();
         dispatch(saveCurrentShip(ship))
         setLodaing(false)

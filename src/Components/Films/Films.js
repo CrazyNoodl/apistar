@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { saveNeedFilms, saveCurrentFilm } from '../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { changeHttpToHttps } from '../../utils/index'
 
 function Films(props) {
 
@@ -21,8 +22,9 @@ function Films(props) {
 
   useEffect(() => {
     async function fetchData() {
+      let newUrls = changeHttpToHttps(props.urls);
 
-      let requests = props.urls.map(url => fetch(url));
+      let requests = newUrls.map(url => fetch(url));
 
       await Promise.all(requests)
         .then(async responses => await Promise.all(responses.map(r => r.json())))

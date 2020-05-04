@@ -1,5 +1,5 @@
-export const API = 'https://swapi.co/api';
+export const API = 'https://swapi.dev/api';
 
 export const ENDPOINTS = {
-  FILMS: `${API}/films`,
+  FILMS: `${API}/films/`,
 }

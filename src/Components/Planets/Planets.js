@@ -9,6 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Planets.scss'
+import { changeHttpToHttps } from '../../utils/index'
 
 function Planets({ urls, needPlanets, savePlanets, planets, history, saveCurrentPlanet }) {
 
@@ -16,8 +17,9 @@ function Planets({ urls, needPlanets, savePlanets, planets, history, saveCurrent
 
   useEffect(() => {
     async function fetchData() {
+      let newUrls = changeHttpToHttps(urls);
 
-      let requests = urls.map(url => fetch(url));
+      let requests = newUrls.map(url => fetch(url));
 
       await Promise.all(requests)
         .then(async responses => await Promise.all(responses.map(planet => planet.json())))

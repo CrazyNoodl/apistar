@@ -21,7 +21,7 @@ function Planet({ location, history }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API}${location.pathname}`);
+        const response = await fetch(`${API}${location.pathname}/`);
 
         const planet = await response.json();
         dispatch(saveCurrentPlanet(planet))

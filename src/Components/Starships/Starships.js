@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import { withRouter } from 'react-router-dom';
 import { loadingStarships, saveCurrentShip } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { changeHttpToHttps } from '../../utils/index'
 
 function Starships({ history }) {
 
@@ -24,7 +25,8 @@ function Starships({ history }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        let requests = urls.map(url => fetch(url));
+        let newUrls = changeHttpToHttps(urls);
+        let requests = newUrls.map(url => fetch(url));
 
         await Promise.all(requests)
           .then(async responses => await Promise.all(responses.map(starship => starship.json())))
